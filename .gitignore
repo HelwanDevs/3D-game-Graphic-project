@@ -1,0 +1,33 @@
+# Blender project .gitignore
+
+# Backup files
+*.blend1
+*.blend2
+*.blend3
+
+# Autosave files
+*.blend@*
+
+# Crash logs
+*.crash
+
+# Thumbnail previews
+*.blend-thumb.png
+
+# Temporary files
+~*
+*.tmp
+
+# Blender asset libraries (optional, if not needed)
+assets/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Python cache (if using scripts)
+__pycache__/
+*.pyc
+
+# Ignore basement if empty
+Right_building/basement/
