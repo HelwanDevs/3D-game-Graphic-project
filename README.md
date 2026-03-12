@@ -4,7 +4,7 @@ This is the master repository for the University College Building 3D Visualizati
 
 ## Project Structure Explained
 
-- `Main_Building/`  : Contains the Master Scene (CS_Helwan.blend).
+- `CS_Helwan.blend`  : Contains the Master Scene.
     - Note: This file is for assembly, lighting, and rendering ONLY. Do not model directly here.
 - `Left_building/`  : Contains the source file for the left wing of the college and its sub-sections.
 - `Right_building/` : Contains the source file for the right wing of the college and its sub-sections (like the basement).   
