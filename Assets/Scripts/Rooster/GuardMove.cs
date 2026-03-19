@@ -27,7 +27,10 @@ public class GuardMove : MonoBehaviour
     public float rotationWaitTime = 1f;
 
 
-
+    void Awake()
+    {
+        guard = GetComponent<NavMeshAgent>();
+    }
 
 
 

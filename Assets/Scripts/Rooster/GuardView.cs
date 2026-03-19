@@ -16,8 +16,19 @@ public class GuardView : MonoBehaviour
     public float viewAngle = 60f;
     public LayerMask obstacleMask;
 
-    public float alertTime = 3f;//time for the guard to notice the fox
+    public float alertTime = 0.1f;//time for the guard to notice the fox
     private float alertTimer = 0f;//time seeing fox
+
+
+    void Awake()
+    {
+        guard = GetComponent<NavMeshAgent>();
+        guardChase = GetComponent<GuardChase>();
+    }
+
+
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

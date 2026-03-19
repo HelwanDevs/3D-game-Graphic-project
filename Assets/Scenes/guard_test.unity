@@ -672,7 +672,7 @@ MonoBehaviour:
   guardView: {fileID: 1232593914}
   chaseSpeed: 0
   loseFoxTime: 4
-  viewDistance: 10
+  viewDistance: 0
   catchDistance: 1.5
   gameover: 0
 --- !u!195 &1232593917

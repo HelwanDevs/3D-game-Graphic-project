@@ -29,6 +29,15 @@ public class GuardChase : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        viewDistance = guardView.viewDistance / 3;
+    }
+
+
+    void Awake()
+    {
+        guard = GetComponent<NavMeshAgent>();
+        guardMove = GetComponent<GuardMove>();
+        guardView = GetComponent<GuardView>();
     }
 
     // Update is called once per frame
@@ -44,7 +53,7 @@ public class GuardChase : MonoBehaviour
                 GameOver();
             }
         }
-        else if (!guardView.IsInView())
+        else if (!guardView.IsInView() && distToFox > viewDistance)
         {//if the guard lose sight of fox
 
 
