@@ -2,9 +2,11 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 
+
 public class GuardMove : MonoBehaviour
 {
 
+    //refrences
     public NavMeshAgent guard;
     public float speed = 5f;
     //increase guard speed
@@ -27,32 +29,25 @@ public class GuardMove : MonoBehaviour
     public float rotationWaitTime = 1f;
 
 
-    void Awake()
+
+
+
+
+
+
+
+    public void StartMoving()
     {
-        guard = GetComponent<NavMeshAgent>();
-    }
+        guard.speed = speed;
+        isWaiting = false;
 
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-
-        GameObject[] pointObjects = GameObject.FindGameObjectsWithTag("point");
-        points = new Transform[pointObjects.Length];
-        for (int i = 0; i < pointObjects.Length; i++)
-        {
-            points[i] = pointObjects[i].transform;
-        }
         if (points.Length > 0)
         {
             NextRandomPoint();
         }
-        guard.speed = speed;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void UpdateMoving()
     {
 
 
@@ -85,6 +80,7 @@ public class GuardMove : MonoBehaviour
             }
         }
     }
+
 
     void NextRandomPoint()
     {

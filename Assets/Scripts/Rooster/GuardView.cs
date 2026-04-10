@@ -4,27 +4,18 @@ using UnityEngine.AI;
 
 public class GuardView : MonoBehaviour
 {
-
+    //character 
     public Transform fox;
-    public NavMeshAgent guard;
+
+
+
+    //settings
     public bool foxSeen = false;
-
-
-    public GuardChase guardChase;
-
     public float viewDistance = 10f;
     public float viewAngle = 60f;
     public LayerMask obstacleMask;
-
     public float alertTime = 0.1f;//time for the guard to notice the fox
-    private float alertTimer = 0f;//time seeing fox
 
-
-    void Awake()
-    {
-        guard = GetComponent<NavMeshAgent>();
-        guardChase = GetComponent<GuardChase>();
-    }
 
 
 
@@ -45,17 +36,10 @@ public class GuardView : MonoBehaviour
         if (IsInView())
         {
 
-            alertTimer += Time.deltaTime;
-            if (alertTimer >= alertTime)
-            {
-                SeenFox();
-            }
-        }
-        else
-        {
+            SeenFox();
 
-            alertTimer = 0f;
         }
+
 
     }
 
@@ -79,8 +63,7 @@ public class GuardView : MonoBehaviour
     void SeenFox()
     {
         foxSeen = true;
-
-        guardChase.startChase();
+        Debug.Log("The Fox was seen");
 
     }
 
