@@ -8,6 +8,7 @@ public class GuardMove : MonoBehaviour
 
     //refrences
     public NavMeshAgent guard;
+    public float baseSpeed = 5f;
     public float speed = 5f;
     //increase guard speed
     public int movesToIncreaseSpeed = 3;
@@ -38,7 +39,8 @@ public class GuardMove : MonoBehaviour
 
     public void StartMoving()
     {
-        guard.speed = speed;
+
+        guard.speed = baseSpeed;
         isWaiting = false;
 
         if (points.Length > 0)
@@ -61,12 +63,13 @@ public class GuardMove : MonoBehaviour
 
         if (isWaiting)
         {
+            Debug.Log("Guard is waiting at point " + curPoint);
             timer += Time.deltaTime;
             rotationtimer += Time.deltaTime;
 
             //to rotate the guard to the right then left while waiting
             transform.Rotate(0f, (rotation ? 1 : -1) * rotationSpeed * Time.deltaTime, 0f);
-
+            Debug.Log("Guard is rotating while waiting.");
             if (rotationtimer >= rotationWaitTime)
             {
                 rotation = !rotation;
@@ -99,6 +102,7 @@ public class GuardMove : MonoBehaviour
             moveCount = 0;
         }
 
+        Debug.LogWarning("Guard is moving to point " + curPoint + " with speed " + guard.speed);
 
 
     }

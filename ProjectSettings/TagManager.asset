@@ -6,11 +6,12 @@ TagManager:
   tags:
   - point
   - Fox
+  - obstacle
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - obstacle
   - Water
   - UI
   - 

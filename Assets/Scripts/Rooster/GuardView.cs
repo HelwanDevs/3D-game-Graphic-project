@@ -1,7 +1,6 @@
-using System.Runtime.InteropServices;
 using UnityEngine;
-using UnityEngine.AI;
 
+[RequireComponent(typeof(LineRenderer))]
 public class GuardView : MonoBehaviour
 {
     //character 
@@ -16,7 +15,8 @@ public class GuardView : MonoBehaviour
     public LayerMask obstacleMask;
     public float alertTime = 0.1f;//time for the guard to notice the fox
 
-
+    //for cone view thingy
+    public LineRenderer lineRenderer;
 
 
 
@@ -29,6 +29,7 @@ public class GuardView : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        DrawCone();
 
         if (foxSeen) { return; }
 
@@ -44,7 +45,7 @@ public class GuardView : MonoBehaviour
     }
 
 
-    void OnDrawGizmos()
+    void OnDrawGizmos() //appear in game view only
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, viewDistance);
@@ -81,15 +82,50 @@ public class GuardView : MonoBehaviour
             {
                 if (!Physics.Raycast(transform.position, direcToFox.normalized, distToFox, obstacleMask))//first parameter is start of ray, second is direction, third is length, fourth is the layer mask to ignore
                 {
+                    Debug.LogWarning("Guard sees the fox!");
+
                     return true;
+
                 }
 
             }
 
         }
+
         return false;
 
 
 
     }
+
+
+
+
+
+
+
+
+    public void DrawCone()
+    {
+        Vector3 origin = transform.position; // lift above ground
+
+        Vector3 left = Quaternion.Euler(0f, -viewAngle / 2f, 0f) * transform.forward;
+        Vector3 right = Quaternion.Euler(0f, viewAngle / 2f, 0f) * transform.forward;
+
+        lineRenderer.positionCount = 4;
+
+        lineRenderer.SetPosition(0, origin);
+        lineRenderer.SetPosition(1, origin + left * viewDistance);
+        lineRenderer.SetPosition(2, origin);
+        lineRenderer.SetPosition(3, origin + right * viewDistance);
+
+
+
+
+
+
+    }
+
+
+
 }

@@ -20,6 +20,7 @@ public class GuardController : MonoBehaviour
     public GuardChase chase;
     public Transform[] points;
     public LayerMask obstacleMask;
+    public LineRenderer lineRenderer;
 
     //settings
     public enum GuardState
@@ -56,7 +57,13 @@ public class GuardController : MonoBehaviour
         guard = GetComponent<NavMeshAgent>();
         fox = GameObject.FindGameObjectWithTag("Fox").transform;
 
-
+        obstacleMask = LayerMask.GetMask("obstacle");
+        lineRenderer = GetComponent<LineRenderer>();
+        lineRenderer.useWorldSpace = true;
+        lineRenderer.positionCount = 0;
+        lineRenderer.widthMultiplier = 1f;
+        lineRenderer.startColor = Color.yellow;
+        lineRenderer.endColor = Color.yellow;
 
 
         GameObject[] pointObjects = GameObject.FindGameObjectsWithTag("point");
@@ -97,11 +104,16 @@ public class GuardController : MonoBehaviour
             }
 
             chase.UpdateChasing();
+            lineRenderer.startColor = Color.red;
+            lineRenderer.endColor = Color.red;
             if (!view.IsInView() || distanceToFox > view.viewDistance)
             {
                 loseTimer += Time.deltaTime;
                 if (loseTimer >= loseTime)
                 {
+                    lineRenderer.startColor = Color.yellow;
+                    lineRenderer.endColor = Color.yellow;
+                    Debug.LogWarning("Guard lost the fox, returning to patrol.");
                     SetState(GuardState.Patrol);
                 }
             }
@@ -145,6 +157,7 @@ public class GuardController : MonoBehaviour
 
         view.fox = fox;
         view.obstacleMask = obstacleMask;
+        view.lineRenderer = lineRenderer;
 
 
 
