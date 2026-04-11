@@ -72,7 +72,7 @@ using UnityEngine.InputSystem.Utilities;
 /// }
 /// </code>
 /// </example>
-public partial class @Foxmove: IInputActionCollection2, IDisposable
+public partial class @foxmove: IInputActionCollection2, IDisposable
 {
     /// <summary>
     /// Provides access to the underlying asset instance.
@@ -82,7 +82,7 @@ public partial class @Foxmove: IInputActionCollection2, IDisposable
     /// <summary>
     /// Constructs a new instance.
     /// </summary>
-    public @Foxmove()
+    public @foxmove()
     {
         asset = InputActionAsset.FromJson(@"{
     ""version"": 1,
@@ -179,6 +179,61 @@ public partial class @Foxmove: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""f2543f14-e4c2-4e23-b3d8-8c1b88376382"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""b8379b39-b9fb-4412-9145-0aa5c6c4448e"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""3dbc427a-4fc4-4e16-8bfc-4ba03c0df08f"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""4624b9f8-619f-4e8f-8ddc-e5c1d2bf1f3a"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""9f9d39bb-9431-4417-9ccb-9c0f7dfd69ff"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
                     ""id"": ""e47052cf-c9f5-4f9e-9005-07a257f493c7"",
                     ""path"": ""<Keyboard>/space"",
@@ -200,9 +255,9 @@ public partial class @Foxmove: IInputActionCollection2, IDisposable
         m_fox_jump = m_fox.FindAction("jump", throwIfNotFound: true);
     }
 
-    ~@Foxmove()
+    ~@foxmove()
     {
-        UnityEngine.Debug.Assert(!m_fox.enabled, "This will cause a leak and performance issues, Foxmove.fox.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_fox.enabled, "This will cause a leak and performance issues, foxmove.fox.Disable() has not been called.");
     }
 
     /// <summary>
@@ -285,12 +340,12 @@ public partial class @Foxmove: IInputActionCollection2, IDisposable
     /// </summary>
     public struct FoxActions
     {
-        private @Foxmove m_Wrapper;
+        private @foxmove m_Wrapper;
 
         /// <summary>
         /// Construct a new instance of the input action map wrapper class.
         /// </summary>
-        public FoxActions(@Foxmove wrapper) { m_Wrapper = wrapper; }
+        public FoxActions(@foxmove wrapper) { m_Wrapper = wrapper; }
         /// <summary>
         /// Provides access to the underlying input action "fox/move".
         /// </summary>

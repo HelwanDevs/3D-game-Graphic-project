@@ -1,9 +1,10 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    Foxmove controls;
+    foxmove controls;
 
     Vector2 moveInput;
     CharacterController controller;
@@ -22,7 +23,10 @@ public class PlayerMovement : MonoBehaviour
 
     void Awake()
     {
-        controls = new Foxmove();
+        InitializeControls();
+
+        Debug.Log(controls);
+        Debug.Log(controls.fox);
     }
 
     void Start()
@@ -42,25 +46,55 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
-        
-        
-        moveInput = controls.fox.move.ReadValue<Vector2>();
-        Vector3 move = new Vector3(moveInput.x, 0, moveInput.y);
-        controller.Move(move * speed * Time.deltaTime);
 
-        
-        if (controls.fox.jump.WasPressedThisFrame() && isGrounded)
+        //if contrrol.fox make nullreference exception catch and initialize controls again
+        try
         {
-            verticalVelocity = jumpHeight; 
-            
+            Debug.Log(controls.fox.move);
+        }
+        catch (NullReferenceException)
+        {
+            InitializeControls();
         }
 
-        
+
+
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+
+
+
+        moveInput = controls.fox.move.ReadValue<Vector2>();
+        Vector3 move = new Vector3(moveInput.x, 0, moveInput.y);
+
+        if (move.sqrMagnitude > 0.001f)
+        {
+            Quaternion targetRot = Quaternion.LookRotation(-move) * Quaternion.Euler(0, 90f, 0); transform.rotation = Quaternion.Slerp(
+                                       transform.rotation,
+                                       targetRot,
+                                       10f * Time.deltaTime
+                                   );
+        }
+
+        controller.Move(move * speed * Time.deltaTime);
+
+
+        if (controls.fox.jump.WasPressedThisFrame() && isGrounded)
+        {
+            verticalVelocity = jumpHeight;
+
+        }
+
+
         verticalVelocity += gravity * Time.deltaTime;
 
         controller.Move(Vector3.up * verticalVelocity * Time.deltaTime);
+    }
+
+
+    public void InitializeControls()
+    {
+        controls = new foxmove();
+        controls.Enable();
     }
 }

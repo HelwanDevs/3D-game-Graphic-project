@@ -2,13 +2,15 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    public Transform guard;
+    public Transform fox;
     public Vector3 offset = new Vector3(0f, 5f, -10f);
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
 
+        fox = GameObject.FindGameObjectWithTag("Fox").transform;
 
     }
 
@@ -16,7 +18,15 @@ public class CameraFollow : MonoBehaviour
     void Update()
     {
 
-        transform.position = guard.position + offset;
+        transform.position = fox.position + offset;
+
+
+
+
 
     }
+
+
+
+
 }
