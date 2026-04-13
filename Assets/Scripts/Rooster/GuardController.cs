@@ -14,6 +14,7 @@ public class GuardController : MonoBehaviour
 
     //characters and scripts
     public Transform fox;
+    Animator ani;
 
     public NavMeshAgent guard;
     public GuardMove move;
@@ -34,6 +35,7 @@ public class GuardController : MonoBehaviour
     public float loseTime = 4f;
     public float loseTimer = 0f;
     public bool isGameOver = false;
+    public bool isLooking = false;
 
 
 
@@ -64,6 +66,7 @@ public class GuardController : MonoBehaviour
         lineRenderer.widthMultiplier = 1f;
         lineRenderer.startColor = Color.yellow;
         lineRenderer.endColor = Color.yellow;
+        ani = guard.GetComponent<Animator>();
 
         Debug.LogWarning("Fox: " + fox);
         Debug.LogWarning("Head: " + fox.Find("head IK"));
@@ -87,6 +90,8 @@ public class GuardController : MonoBehaviour
     {
 
         if (isGameOver) { return; }
+
+        UpdateAnimations();
 
         if (currentState == GuardState.Patrol)
         {
@@ -139,6 +144,28 @@ public class GuardController : MonoBehaviour
 
         move.enabled = (newState == GuardState.Patrol);
         chase.enabled = (newState == GuardState.Chase);
+
+    }
+
+    void UpdateAnimations()
+    {
+        ani.speed = 1f;
+        if (currentState == GuardState.Patrol)
+        {
+            if (move.isWaiting)
+            {
+                ani.speed = 2f;
+                ani.Play("look");
+            }
+            else
+            {
+                ani.Play("Walking");
+            }
+        }
+        else if (currentState == GuardState.Chase)
+        {
+            ani.Play("run");
+        }
     }
 
 
