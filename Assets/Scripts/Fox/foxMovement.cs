@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 5f;
     public float jumpHeight = 7f;
     public float gravity = -9.81f;
+    public float lookInput;
 
     float verticalVelocity;
 
@@ -25,8 +26,8 @@ public class PlayerMovement : MonoBehaviour
     {
         InitializeControls();
 
-        Debug.Log(controls);
-        Debug.Log(controls.fox);
+        // Debug.Log(controls);
+        // Debug.Log(controls.fox);
     }
 
     void Start()
@@ -51,7 +52,8 @@ public class PlayerMovement : MonoBehaviour
         //if contrrol.fox make nullreference exception catch and initialize controls again
         try
         {
-            Debug.Log(controls.fox.move);
+            moveInput = controls.fox.move.ReadValue<Vector2>();
+            lookInput = controls.fox.look.ReadValue<float>();
         }
         catch (NullReferenceException)
         {
@@ -64,22 +66,27 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-        moveInput = controls.fox.move.ReadValue<Vector2>();
-        Vector3 move = new Vector3(moveInput.x, 0, moveInput.y);
 
-        if (move.sqrMagnitude > 0.001f)
+        Vector3 move = transform.right * moveInput.x + transform.forward * moveInput.y;
+        // if (move.sqrMagnitude > 0.001f)
+        // {
+        //     Quaternion targetRot = Quaternion.LookRotation(-move) * Quaternion.Euler(0, 90f, 0); transform.rotation = Quaternion.Slerp(
+        //                                transform.rotation,
+        //                                targetRot,
+        //                                10f * Time.deltaTime
+        //                            );
+        // }
+
+
+        if (Mathf.Abs(lookInput) > 0.01f)
         {
-            Quaternion targetRot = Quaternion.LookRotation(-move) * Quaternion.Euler(0, 90f, 0); transform.rotation = Quaternion.Slerp(
-                                       transform.rotation,
-                                       targetRot,
-                                       10f * Time.deltaTime
-                                   );
+            transform.Rotate(Vector3.up * lookInput * 200f * Time.deltaTime);
         }
 
         controller.Move(move * speed * Time.deltaTime);
 
 
-        if (controls.fox.jump.WasPressedThisFrame() && isGrounded)
+        if (controls.fox.jump.WasPressedThisFrame() && isGrounded && transform.position.y < 2f)
         {
             verticalVelocity = jumpHeight;
 

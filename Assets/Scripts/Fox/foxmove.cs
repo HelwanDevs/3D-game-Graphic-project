@@ -109,6 +109,15 @@ public partial class @foxmove: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""look"",
+                    ""type"": ""Value"",
+                    ""id"": ""c4e9f03a-91c2-4d68-9491-435e85f487d8"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -157,28 +166,6 @@ public partial class @foxmove: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""left"",
-                    ""id"": ""17826fd9-740d-455f-aa9f-7d0adb29757e"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""b56ed95f-598e-40f6-9524-b4e7313d3d10"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": ""2D Vector"",
                     ""id"": ""f2543f14-e4c2-4e23-b3d8-8c1b88376382"",
                     ""path"": ""2DVector"",
@@ -212,28 +199,6 @@ public partial class @foxmove: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""left"",
-                    ""id"": ""4624b9f8-619f-4e8f-8ddc-e5c1d2bf1f3a"",
-                    ""path"": ""<Keyboard>/leftArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""9f9d39bb-9431-4417-9ccb-9c0f7dfd69ff"",
-                    ""path"": ""<Keyboard>/rightArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": """",
                     ""id"": ""e47052cf-c9f5-4f9e-9005-07a257f493c7"",
                     ""path"": ""<Keyboard>/space"",
@@ -243,6 +208,39 @@ public partial class @foxmove: IInputActionCollection2, IDisposable
                     ""action"": ""jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""00d4d280-13f7-4524-a820-768e8bb4f8ff"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""look"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""9551c696-24d0-4ef7-b643-50ef4dab6f89"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""26487905-f4aa-4e37-9e3b-d7114662302b"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -253,6 +251,7 @@ public partial class @foxmove: IInputActionCollection2, IDisposable
         m_fox = asset.FindActionMap("fox", throwIfNotFound: true);
         m_fox_move = m_fox.FindAction("move", throwIfNotFound: true);
         m_fox_jump = m_fox.FindAction("jump", throwIfNotFound: true);
+        m_fox_look = m_fox.FindAction("look", throwIfNotFound: true);
     }
 
     ~@foxmove()
@@ -335,6 +334,7 @@ public partial class @foxmove: IInputActionCollection2, IDisposable
     private List<IFoxActions> m_FoxActionsCallbackInterfaces = new List<IFoxActions>();
     private readonly InputAction m_fox_move;
     private readonly InputAction m_fox_jump;
+    private readonly InputAction m_fox_look;
     /// <summary>
     /// Provides access to input actions defined in input action map "fox".
     /// </summary>
@@ -354,6 +354,10 @@ public partial class @foxmove: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "fox/jump".
         /// </summary>
         public InputAction @jump => m_Wrapper.m_fox_jump;
+        /// <summary>
+        /// Provides access to the underlying input action "fox/look".
+        /// </summary>
+        public InputAction @look => m_Wrapper.m_fox_look;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -386,6 +390,9 @@ public partial class @foxmove: IInputActionCollection2, IDisposable
             @jump.started += instance.OnJump;
             @jump.performed += instance.OnJump;
             @jump.canceled += instance.OnJump;
+            @look.started += instance.OnLook;
+            @look.performed += instance.OnLook;
+            @look.canceled += instance.OnLook;
         }
 
         /// <summary>
@@ -403,6 +410,9 @@ public partial class @foxmove: IInputActionCollection2, IDisposable
             @jump.started -= instance.OnJump;
             @jump.performed -= instance.OnJump;
             @jump.canceled -= instance.OnJump;
+            @look.started -= instance.OnLook;
+            @look.performed -= instance.OnLook;
+            @look.canceled -= instance.OnLook;
         }
 
         /// <summary>
@@ -457,5 +467,12 @@ public partial class @foxmove: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnJump(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "look" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnLook(InputAction.CallbackContext context);
     }
 }

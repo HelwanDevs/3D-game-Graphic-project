@@ -5,6 +5,8 @@ public class GuardView : MonoBehaviour
 {
     //character 
     public Transform fox;
+    public Transform foxhead;
+    public Transform foxtail;
 
 
 
@@ -23,6 +25,7 @@ public class GuardView : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
 
     }
 
@@ -71,32 +74,31 @@ public class GuardView : MonoBehaviour
 
     public bool IsInView()
     {
-
-        Vector3 direcToFox = fox.position - transform.position;
-        float distToFox = Vector3.Distance(transform.position, fox.position);
-
-        if (distToFox < viewDistance)
-        {
-            float angleToFox = Vector3.Angle(transform.forward, direcToFox);
-            if (angleToFox < viewAngle / 2f)
-            {
-                if (!Physics.Raycast(transform.position, direcToFox.normalized, distToFox, obstacleMask))//first parameter is start of ray, second is direction, third is length, fourth is the layer mask to ignore
-                {
-                    Debug.LogWarning("Guard sees the fox!");
-
-                    return true;
-
-                }
-
-            }
-
-        }
+        if (CheckTarget(foxhead.position)) return true;
+        if (CheckTarget(foxtail.position)) return true;
+        if (CheckTarget(fox.position)) return true;
 
         return false;
-
-
-
     }
+
+
+    bool CheckTarget(Vector3 part)
+    {
+        Vector3 dir = part - transform.position;
+        float dist = dir.magnitude;
+
+        if (dist > viewDistance) return false;
+
+        float angle = Vector3.Angle(transform.forward, dir);
+        if (angle > viewAngle / 2f) return false;
+
+        if (Physics.Raycast(transform.position, dir.normalized, dist, obstacleMask))
+            return false;
+
+        return true;
+    }
+
+
 
 
 

@@ -14,6 +14,7 @@ public class GuardController : MonoBehaviour
 
     //characters and scripts
     public Transform fox;
+
     public NavMeshAgent guard;
     public GuardMove move;
     public GuardView view;
@@ -56,7 +57,6 @@ public class GuardController : MonoBehaviour
         chase = GetComponent<GuardChase>();
         guard = GetComponent<NavMeshAgent>();
         fox = GameObject.FindGameObjectWithTag("Fox").transform;
-
         obstacleMask = LayerMask.GetMask("obstacle");
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.useWorldSpace = true;
@@ -64,6 +64,10 @@ public class GuardController : MonoBehaviour
         lineRenderer.widthMultiplier = 1f;
         lineRenderer.startColor = Color.yellow;
         lineRenderer.endColor = Color.yellow;
+
+        Debug.LogWarning("Fox: " + fox);
+        Debug.LogWarning("Head: " + fox.Find("head IK"));
+
 
 
         GameObject[] pointObjects = GameObject.FindGameObjectsWithTag("point");
