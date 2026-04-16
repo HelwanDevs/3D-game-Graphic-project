@@ -102,7 +102,7 @@ public class GuardMove : MonoBehaviour
             moveCount = 0;
         }
 
-        Debug.LogWarning("Guard is moving to point " + curPoint + " with speed " + guard.speed);
+        Debug.Log("Guard is moving to point " + curPoint + " with speed " + guard.speed);
 
 
     }

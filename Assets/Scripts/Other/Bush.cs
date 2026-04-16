@@ -28,7 +28,7 @@ public class Bush : MonoBehaviour
     {
         if (other.CompareTag("Fox"))
         {
-            Debug.LogError("Fox entered bush");
+            Debug.Log("Fox entered bush");
             Color c = material.color;
             c.a = fade;
             material.color = c;

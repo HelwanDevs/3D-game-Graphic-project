@@ -68,8 +68,8 @@ public class GuardController : MonoBehaviour
         lineRenderer.endColor = Color.yellow;
         ani = guard.GetComponent<Animator>();
 
-        Debug.LogWarning("Fox: " + fox);
-        Debug.LogWarning("Head: " + fox.Find("head IK"));
+        Debug.Log("Fox: " + fox);
+        Debug.Log("Head: " + fox.Find("head IK"));
 
 
 
@@ -122,7 +122,7 @@ public class GuardController : MonoBehaviour
                 {
                     lineRenderer.startColor = Color.yellow;
                     lineRenderer.endColor = Color.yellow;
-                    Debug.LogWarning("Guard lost the fox, returning to patrol.");
+                    Debug.Log("Guard lost the fox, returning to patrol.");
                     SetState(GuardState.Patrol);
                 }
             }
@@ -176,6 +176,7 @@ public class GuardController : MonoBehaviour
         // view.enabled = false;
         // chase.enabled = false;
         // guard.isStopped = true;
+        GameManager.instance.GameOver();
         Debug.Log("Game Over :3");
         Debug.LogError("Game Over!!");
     }

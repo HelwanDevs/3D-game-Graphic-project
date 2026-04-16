@@ -23,7 +23,7 @@ public class GuardChase : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void StartChasing()
     {
-        Debug.LogWarning("Guard starts chasing the fox!");
+        Debug.Log("Guard starts chasing the fox!");
 
         guard.speed = guardController.move.speed * chaseSpeedMultiplier;
     }

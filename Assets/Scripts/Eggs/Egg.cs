@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class Egg : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    void OnTriggerEnter(Collider other)
     {
-        
+        if (other.CompareTag("Fox"))
+        {
+            Debug.Log("Fox touched egg");
+            GameManager.instance.CollectEgg();
+
+            Destroy(gameObject);
+        }
     }
 }
