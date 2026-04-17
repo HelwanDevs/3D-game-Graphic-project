@@ -72,13 +72,14 @@ public class GuardController : MonoBehaviour
         Debug.Log("Head: " + fox.Find("head IK"));
 
 
+        // GameObject[] pointObjects = GameObject.FindGameObjectsWithTag("point");
+        // points = new Transform[pointObjects.Length];
+        // for (int i = 0; i < pointObjects.Length; i++)
+        // {
+        //     points[i] = pointObjects[i].transform;
+        // }
+        // System.Array.Sort(points, (a, b) => a.name.CompareTo(b.name));
 
-        GameObject[] pointObjects = GameObject.FindGameObjectsWithTag("point");
-        points = new Transform[pointObjects.Length];
-        for (int i = 0; i < pointObjects.Length; i++)
-        {
-            points[i] = pointObjects[i].transform;
-        }
 
         setupReferences();
 
@@ -104,9 +105,11 @@ public class GuardController : MonoBehaviour
         }
         else if (currentState == GuardState.Chase)
         {
-
             float distanceToFox = Vector3.Distance(transform.position, fox.position);
-            if (distanceToFox <= 1f)
+            float distancehead = Vector3.Distance(transform.position, view.foxhead.position);
+            float distancetail = Vector3.Distance(transform.position, view.foxtail.position);
+
+            if (distanceToFox <= 1f || distancehead <= 1f || distancetail <= 1f)
             {
                 GameOver();
 
@@ -149,12 +152,11 @@ public class GuardController : MonoBehaviour
 
     void UpdateAnimations()
     {
-        ani.speed = 1f;
+        ani.speed = 2f;
         if (currentState == GuardState.Patrol)
         {
             if (move.isWaiting)
             {
-                ani.speed = 2f;
                 ani.Play("look");
             }
             else
@@ -176,6 +178,7 @@ public class GuardController : MonoBehaviour
         // view.enabled = false;
         // chase.enabled = false;
         // guard.isStopped = true;
+        ani.enabled = false;
         GameManager.instance.GameOver();
         Debug.Log("Game Over :3");
         Debug.LogError("Game Over!!");

@@ -45,7 +45,8 @@ public class GuardMove : MonoBehaviour
 
         if (points.Length > 0)
         {
-            NextRandomPoint();
+            // NextRandomPoint();
+            NextPoint();
         }
     }
 
@@ -79,7 +80,9 @@ public class GuardMove : MonoBehaviour
             if (timer >= waitTime)
             {
                 isWaiting = false;
-                NextRandomPoint();
+                // NextRandomPoint();
+                NextPoint();
+
             }
         }
     }
@@ -105,5 +108,25 @@ public class GuardMove : MonoBehaviour
         Debug.Log("Guard is moving to point " + curPoint + " with speed " + guard.speed);
 
 
+    }
+
+    void NextPoint()
+    {
+        if (points.Length == 0)
+        { return; }
+
+        guard.SetDestination(points[curPoint].position);
+        moveCount++;
+        if (moveCount >= movesToIncreaseSpeed)
+        {
+
+            guard.speed += speedIncreaseAmount;
+            speed = guard.speed;
+            moveCount = 0;
+        }
+
+        Debug.Log("Guard is moving to point " + curPoint + " with speed " + guard.speed);
+
+        curPoint = (curPoint + 1) % points.Length;
     }
 }

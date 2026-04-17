@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     foxmove controls;
+    Animator ani;
 
     Vector2 moveInput;
     CharacterController controller;
@@ -33,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        ani = GetComponentInChildren<Animator>();
     }
 
     void OnEnable()
@@ -81,6 +83,16 @@ public class PlayerMovement : MonoBehaviour
         if (Mathf.Abs(lookInput) > 0.01f)
         {
             transform.Rotate(Vector3.up * lookInput * 200f * Time.deltaTime);
+        }
+
+        if (moveInput.sqrMagnitude > 0.01f)
+        {
+            ani.speed = 3f;
+            ani.Play("walk");
+        }
+        else
+        {
+            ani.Play("idle");
         }
 
         controller.Move(move * speed * Time.deltaTime);

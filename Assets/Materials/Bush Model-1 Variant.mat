@@ -35,7 +35,8 @@ Material:
     - _DstBlendAlpha: 10
     - _Surface: 1
     - _ZWrite: 0
-    m_Colors: []
+    m_Colors:
+    - _Color: {r: 0.010602068, g: 0.459275, b: 0.0072064195, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &1582570792066516405

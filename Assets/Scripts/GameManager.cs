@@ -8,8 +8,17 @@ public class GameManager : MonoBehaviour
 {
 
     public static GameManager instance;
-    public UIManager ui;
+    public TMP_Text counterEgg;
+    public TMP_Text hint;
+    public GameObject winScreen;
+    public GameObject loseScreen;
 
+
+
+
+    //array of guards since there will be multiple guards in the game
+    public GuardController[] guards;
+    public PlayerMovement fox;
 
 
     public int totalEggs;
@@ -20,28 +29,37 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+
+        instance = this;
+
     }
 
 
     void Start()
     {
-        totalEggs = GameObject.FindGameObjectsWithTag("Egg").Length;
 
+        StartNewLevel();
+
+    }
+
+
+    public void StartNewLevel()
+    {
         collectedEggs = 0;
+
+        totalEggs = GameObject.FindGameObjectsWithTag("Egg").Length;
+        fox = GameObject.FindGameObjectWithTag("Fox").GetComponent<PlayerMovement>();
+        GameObject[] guardObjects = GameObject.FindGameObjectsWithTag("Guard");
+        guards = new GuardController[guardObjects.Length];
+
+        for (int i = 0; i < guardObjects.Length; i++)
+        {
+            guards[i] = guardObjects[i].GetComponent<GuardController>();
+
+        }
+        newUI();
+
         UpdateCounter();
-        if (ui.winScreen != null)
-            ui.winScreen.SetActive(false);
-        if (ui.loseScreen != null)
-            ui.loseScreen.SetActive(false);
 
     }
 
@@ -54,8 +72,15 @@ public class GameManager : MonoBehaviour
 
     void UpdateCounter()
     {
-        if (ui.counterEgg != null && ui != null)
-            ui.counterEgg.text = "Eggs: " + collectedEggs + "/" + totalEggs;
+        if (counterEgg != null)
+            counterEgg.text = "Eggs: " + collectedEggs + "/" + totalEggs;
+
+
+
+        if (collectedEggs >= totalEggs)
+        {
+            hint.text = "All eggs collected! Return to the starting point!";
+        }
     }
 
     public void ReachPoint()
@@ -67,30 +92,49 @@ public class GameManager : MonoBehaviour
         else
         {
 
-            ui.hint.text = "You need to collect all the eggs then come back here!";
+            hint.text = "You need to collect all the eggs then come back here!";
         }
     }
 
     public void LeavePoint()
     {
-        ui.hint.text = "Collect all the eggs!";
+        hint.text = "Collect all the eggs!";
     }
 
 
 
     public void WinGame()
     {
-        if (ui.winScreen != null)
-            ui.winScreen.SetActive(true);
+        if (winScreen != null)
+            winScreen.SetActive(true);
+
+
+        counterEgg.gameObject.SetActive(false);
+        hint.gameObject.SetActive(false);
+        StopGame();
 
         Debug.Log("You Win!!");
     }
 
     public void GameOver()
     {
-        if (ui.loseScreen != null)
-            ui.loseScreen.SetActive(true);
+        if (loseScreen != null)
+            loseScreen.SetActive(true);
+        counterEgg.gameObject.SetActive(false);
+        hint.gameObject.SetActive(false);
+        StopGame();
 
+
+
+    }
+
+    public void StopGame()
+    {
+        for (int i = 0; i < guards.Length; i++)
+        {
+            guards[i].enabled = false;
+        }
+        fox.enabled = false;
 
 
 
@@ -98,7 +142,10 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+
     }
     public void ReturnToMainMenu()
     {
@@ -119,12 +166,16 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void newUI(UIManager newUI)
+    public void newUI()
     {
-        ui = newUI;
+        counterEgg = GameObject.Find("counterEgg").GetComponent<TMP_Text>();
+        hint = GameObject.Find("Hint").GetComponent<TMP_Text>();
+        winScreen = GameObject.Find("winScreen");
+        loseScreen = GameObject.Find("loseScreen");
 
+        winScreen.SetActive(false);
+        loseScreen.SetActive(false);
 
-        UpdateCounter();
     }
 
 
