@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public TMP_Text hint;
     public GameObject winScreen;
     public GameObject loseScreen;
+    public GameObject androidCon;
 
 
 
@@ -151,6 +152,23 @@ public class GameManager : MonoBehaviour
         hint = GameObject.Find("Hint").GetComponent<TMP_Text>();
         winScreen = GameObject.Find("winScreen");
         loseScreen = GameObject.Find("loseScreen");
+
+
+#if UNITY_ANDROID || UNITY_IOS || UNITY_WEBGL
+
+        if (Application.isMobilePlatform || SystemInfo.deviceType == DeviceType.Handheld)
+        {
+            if (androidCon != null) androidCon.SetActive(true);
+        }
+        else
+        {
+            if (androidCon != null) androidCon.SetActive(false);
+        }
+
+#else
+        if (androidCon != null) androidCon.SetActive(false);
+#endif
+
 
         winScreen.SetActive(false);
         loseScreen.SetActive(false);

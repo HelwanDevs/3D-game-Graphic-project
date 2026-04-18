@@ -198,7 +198,6 @@ public class GuardController : MonoBehaviour
         ani.enabled = false;
         GameManager.instance.GameOver();
         Debug.Log("Game Over :3");
-        Debug.LogError("Game Over!!");
     }
 
 
