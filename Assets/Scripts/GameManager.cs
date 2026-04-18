@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using TMPro;
 
 
@@ -24,7 +22,8 @@ public class GameManager : MonoBehaviour
     public int totalEggs;
     public int collectedEggs;
 
-
+    public AudioSource source;
+    public AudioClip winclip;
 
 
     void Awake()
@@ -87,6 +86,11 @@ public class GameManager : MonoBehaviour
     {
         if (collectedEggs >= totalEggs)
         {
+
+            source = GameObject.Find("sfx").GetComponent<AudioSource>();
+            winclip = Resources.Load<AudioClip>("Audio/win");
+            source.clip = winclip;
+            source.Play();
             WinGame();
         }
         else
@@ -138,31 +142,6 @@ public class GameManager : MonoBehaviour
 
 
 
-    }
-
-    public void RestartGame()
-    {
-
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-
-
-    }
-    public void ReturnToMainMenu()
-    {
-        SceneManager.LoadScene(0);
-    }
-    public void NextLevel()
-    {
-        int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
-        if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
-        {
-            SceneManager.LoadScene(nextSceneIndex);
-        }
-        else
-        {
-            Debug.Log("No more levels! Returning to main menu.");
-            SceneManager.LoadScene(0);
-        }
     }
 
 

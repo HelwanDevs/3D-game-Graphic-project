@@ -8,7 +8,8 @@ public class Bush : MonoBehaviour
     Color bushColor;
     public float fade = 0.2f;
 
-
+    public AudioSource source;
+    public AudioClip clip;
 
 
 
@@ -26,6 +27,11 @@ public class Bush : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+
+        source = GameObject.Find("sfx").GetComponent<AudioSource>();
+        clip = Resources.Load<AudioClip>("Audio/bush");
+        source.clip = clip;
+        source.Play();
         if (other.CompareTag("Fox"))
         {
             Debug.Log("Fox entered bush");

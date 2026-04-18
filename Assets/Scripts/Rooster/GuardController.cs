@@ -39,6 +39,10 @@ public class GuardController : MonoBehaviour
 
 
 
+    public AudioSource source;
+    public AudioClip chaseClip;
+    public AudioClip loseClip;
+
 
 
 
@@ -67,6 +71,12 @@ public class GuardController : MonoBehaviour
         lineRenderer.startColor = Color.yellow;
         lineRenderer.endColor = Color.yellow;
         ani = guard.GetComponent<Animator>();
+
+        source = GameObject.Find("sfx").GetComponent<AudioSource>();
+        loseClip = Resources.Load<AudioClip>("Audio/lose");
+        chaseClip = Resources.Load<AudioClip>("Audio/chase");
+
+
 
         Debug.Log("Fox: " + fox);
         Debug.Log("Head: " + fox.Find("head IK"));
@@ -100,6 +110,8 @@ public class GuardController : MonoBehaviour
 
             if (view.IsInView())
             {
+                source.clip = chaseClip;
+                source.Play();
                 SetState(GuardState.Chase);
             }
         }
@@ -111,6 +123,7 @@ public class GuardController : MonoBehaviour
 
             if (distanceToFox <= 1f || distancehead <= 1f || distancetail <= 1f)
             {
+
                 GameOver();
 
             }
@@ -178,6 +191,10 @@ public class GuardController : MonoBehaviour
         // view.enabled = false;
         // chase.enabled = false;
         // guard.isStopped = true;
+
+        source.clip = loseClip;
+        source.Play();
+
         ani.enabled = false;
         GameManager.instance.GameOver();
         Debug.Log("Game Over :3");

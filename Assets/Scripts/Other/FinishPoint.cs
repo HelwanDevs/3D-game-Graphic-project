@@ -3,6 +3,7 @@ using UnityEngine;
 public class FinishPoint : MonoBehaviour
 {
 
+
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Fox"))
